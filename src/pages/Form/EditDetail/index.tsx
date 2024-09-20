@@ -1,29 +1,32 @@
-import React, { useState, useEffect } from 'react'
-import { createForm } from '@formily/core'
-import { createSchemaField } from '@formily/react'
+import { UploadOutlined } from '@ant-design/icons';
 import {
+  ArrayItems,
+  Cascader,
+  DatePicker,
+  Editable,
   Form,
+  FormButtonGroup,
+  FormGrid,
   FormItem,
   FormLayout,
   Input,
+  NumberPicker,
   Select,
-  Cascader,
-  DatePicker,
   Submit,
-  FormGrid,
+  Switch,
   Upload,
-  ArrayItems,
-  Editable,
-  FormButtonGroup,
-} from '@formily/antd-v5'
-import { action } from '@formily/reactive'
-import { Card, Button, Spin } from 'antd'
-import { UploadOutlined } from '@ant-design/icons'
-import schema from './schema'
+} from '@formily/antd-v5';
+import { createForm } from '@formily/core';
+import { createSchemaField } from '@formily/react';
+import { action } from '@formily/reactive';
+import { Button, Card, Spin } from 'antd';
+import { useEffect, useState } from 'react';
+import initValues from './initValues';
+import schema from './schema';
 
 const form = createForm({
   validateFirst: true,
-})
+});
 
 const IDUpload = (props) => {
   return (
@@ -36,8 +39,8 @@ const IDUpload = (props) => {
     >
       <Button icon={<UploadOutlined />}>上传复印件</Button>
     </Upload>
-  )
-}
+  );
+};
 
 const SchemaField = createSchemaField({
   components: {
@@ -48,6 +51,8 @@ const SchemaField = createSchemaField({
     DatePicker,
     Cascader,
     Select,
+    NumberPicker,
+    Switch,
     IDUpload,
     ArrayItems,
     Editable,
@@ -60,66 +65,39 @@ const SchemaField = createSchemaField({
             return buf.concat({
               label: value,
               value: key,
-            })
-          const { name, code, cities, districts } = value
-          const _cities = transform(cities)
-          const _districts = transform(districts)
+            });
+          const { name, code, cities, districts } = value;
+          const _cities = transform(cities);
+          const _districts = transform(districts);
           return buf.concat({
             label: name,
             value: code,
-            children: _cities.length
-              ? _cities
-              : _districts.length
-              ? _districts
-              : undefined,
-          })
-        }, [])
-      }
+            children: _cities.length ? _cities : _districts.length ? _districts : undefined,
+          });
+        }, []);
+      };
 
-      field.loading = true
+      field.loading = true;
       fetch('//unpkg.com/china-location/dist/location.json')
         .then((res) => res.json())
         .then(
           action.bound((data) => {
-            field.dataSource = transform(data)
-            field.loading = false
-          })
-        )
+            field.dataSource = transform(data);
+            field.loading = false;
+          }),
+        );
     },
   },
-})
-
-
+});
 
 export default () => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {
-      form.setInitialValues({
-        username: 'Aston Martin',
-        firstName: 'Aston',
-        lastName: 'Martin',
-        email: 'aston_martin@aston.com',
-        gender: 1,
-        birthday: '1836-01-03',
-        address: ['110000', '110000', '110101'],
-        idCard: [
-          {
-            name: 'this is image',
-            thumbUrl:
-              'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-            uid: 'rc-upload-1615825692847-2',
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-          },
-        ],
-        contacts: [
-          { name: '张三', phone: '13245633378', email: 'zhangsan@gmail.com' },
-          { name: '李四', phone: '16873452678', email: 'lisi@gmail.com' },
-        ],
-      })
-      setLoading(false)
-    }, 2000)
-  }, [])
+      form.setInitialValues(initValues);
+      setLoading(false);
+    }, 2000);
+  }, []);
   return (
     <div
       style={{
@@ -131,12 +109,7 @@ export default () => {
     >
       <Card title="编辑用户" style={{ width: 620 }}>
         <Spin spinning={loading}>
-          <Form
-            form={form}
-            labelCol={5}
-            wrapperCol={16}
-            onAutoSubmit={console.log}
-          >
+          <Form form={form} labelCol={5} wrapperCol={16} onAutoSubmit={console.log}>
             <SchemaField schema={schema} />
             <FormButtonGroup.FormItem>
               <Submit block size="large">
@@ -147,5 +120,5 @@ export default () => {
         </Spin>
       </Card>
     </div>
-  )
-}
+  );
+};

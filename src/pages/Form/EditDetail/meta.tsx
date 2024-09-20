@@ -1,0 +1,26 @@
+export default [
+  { fieldName: 'username', fieldType: 'String', labelName: '用户名', required: true, readonly: false, hidden: false },
+  { fieldName: 'email', fieldType: 'String', labelName: '邮箱', required: true, readonly: false, hidden: false },
+  { fieldName: 'gender', fieldType: 'Option', labelName: '性别', required: true, readonly: false, hidden: false },
+  { fieldName: 'height', fieldType: 'Integer', labelName: '身高', required: false, readonly: false, hidden: false },
+  { fieldName: 'employed', fieldType: 'Boolean', labelName: '在职', required: true, readonly: false, hidden: false },
+  { fieldName: 'birthday', fieldType: 'Date', labelName: '生日', required: true, readonly: false, hidden: false },
+  { fieldName: 'updateTime', fieldType: 'DateTime', labelName: '邮箱', required: true, readonly: false, hidden: false },
+  { fieldName: 'address', fieldType: 'MultiString', labelName: '地址', required: true, readonly: false, hidden: false },
+  {
+    fieldName: 'idCard',
+    fieldType: 'String',
+    labelName: '身份证复印件',
+    required: true,
+    readonly: false,
+    hidden: false,
+  },
+  {
+    fieldName: 'contacts',
+    fieldType: 'OneToMany',
+    labelName: '联系人',
+    required: true,
+    readonly: false,
+    hidden: false,
+  },
+];
